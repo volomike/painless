@@ -23,6 +23,7 @@ public static function getView($sPage){
 
 public static function getPageController(){
 global $BASE_PATH;
+global $config;
 	$bDebug = FALSE;
 	// Get our Initial URL
 	$sThisURL = @ $_SERVER['REDIRECT_URL'];
@@ -36,29 +37,40 @@ global $BASE_PATH;
 	// Prefix with BASE_PATH + /controllers
 	$sThisURL = $BASE_PATH . '/controllers' . $sThisURL;
 	if ($bDebug) echo "STEP 3: $sThisURL<br />\n";
+	// Remove query params
+	$nPos = strpos($sThisURL,'?');
+	if ($nPos !== FALSE) {
+		$sThisURL = substr($sThisURL,0,$nPos);
+	}
+	if ($bDebug) echo "STEP 4: $sThisURL<br />\n";
 	// If file/folder doesn't exist, then remove ending slash and tack on /index.php.
 	// In other words, look for a default page controller.
 	if (!file_exists($sThisURL)) {
 		$sThisURL = rtrim($sThisURL,'/') . '/index.php';
 	}
-	if ($bDebug) echo "STEP 4: $sThisURL<br />\n";
+	if ($bDebug) echo "STEP 5: $sThisURL<br />\n";
 	// If that new path doesn't exist, then undo it and tack on .php
 	// In other words, look for a PHP page in that folder path.
 	if (!file_exists($sThisURL)) {
 		$sThisURL = str_replace('/index.php','',$sThisURL);
 		$sThisURL .= '.php';
 	}
-	if ($bDebug) echo "STEP 5: $sThisURL<br />\n";
+	if ($bDebug) echo "STEP 6: $sThisURL<br />\n";
 	// If that path doesn't end with .php, then tack on index.php
 	if (strpos($sThisURL,'.php') === FALSE) {
 		$sThisURL = rtrim($sThisURL,'/') . '/index.php';
 	}
-	if ($bDebug) echo "STEP 6: $sThisURL<br />\n";
+	if ($bDebug) echo "STEP 7: $sThisURL<br />\n";
 	// If that path doesn't exist, then tack on index.php
 	if (!file_exists($sThisURL)) {
-		$sThisURL = rtrim(dirname($sThisURL),'/') . '/index.php';
+		if ($config->SHOW_404) {
+			$sThisURL = $BASE_PATH . '/controllers/404.php';
+		} else {
+			$sThisURL = rtrim(dirname($sThisURL),'/') . '/index.php';
+		}
 	}
-	if ($bDebug) echo "STEP 7: $sThisURL<br />\n";
+	if ($bDebug) echo "STEP 8: $sThisURL<br />\n";
+	if ($bDebug) die();
 	return $sThisURL;
 }
 
