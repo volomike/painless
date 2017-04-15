@@ -1,0 +1,52 @@
+This is a sample nginx that can be changed to be somewhat equivalent to the .htaccess file.
+
+In the following example, let's assume that all the websites on the server were in /var/www, and the
+web project is in the path /var/www/acme/demo1. Let's also assume that the domain is me.com. If so,
+then this would be a good /etc/nginx/sites-available/me.com file:
+
+server {
+
+	listen 80;
+	listen [::]:80;
+
+	root /var/www;
+
+	index index.php index.html;
+
+	server_name me.com www.me.com;
+
+	location ~ ^/acme/(.*)/css/(.*)$ {
+		alias /var/www/acme/$1/views/assets/css/$2;
+	}
+
+	location ~ ^/acme/(.*)/js/(.*)$ {
+		alias /var/www/acme/$1/views/assets/js/$2;
+	}
+
+	location ~ ^/acme/(.*)/img/(.*)$ {
+		alias /var/www/acme/$1/views/assets/img/$2;
+	}
+
+	location ~ ^/acme/(.*)/boot/(.*)$ {
+		alias /var/www/acme/$1/views/assets/boot/$2;
+	}
+
+	location ~ ^/acme/(.*)/font/(.*)$ {
+		alias /var/www/acme/$1/views/assets/font/$2;
+	}
+
+	location / {
+		try_files $uri $uri/ @php;
+	}
+
+	location @php {
+		rewrite ^/acme/([^\/]+)/.*((?!index\.php).)*$ /acme/$1/index.php?query_string last;
+	}
+
+	location ~ \.php$ {
+		include snippets/fastcgi-php.conf;
+		fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+	}
+
+
+}
