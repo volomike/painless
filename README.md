@@ -27,7 +27,7 @@ cumbersome
 DOES NOT INCLUDE
 ----------------
 
-* Twitter Boostrap -- add that yourself
+* Twitter Bootstrap -- add that yourself
 * jQuery -- add that yourself
 * ORM or ActiveRecord -- use PDO and SQL instead, or add your favorite ORM or ActiveRecord engine
 * Automatic database connection -- use the `config/config.php` and the `models/core.static.php` and build it yourself
