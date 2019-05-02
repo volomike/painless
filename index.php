@@ -37,6 +37,9 @@ $BASE_URL = Core::getBaseURL();
 // Load our config
 require_once($BASE_PATH . '/config/config.php');
 
+// Map config into view object
+$view->CONFIG = $config;
+
 // Define our error handling
 error_reporting($config->ERROR_REPORTING);
 ini_set('display_errors',$config->DISPLAY_ERRORS);
