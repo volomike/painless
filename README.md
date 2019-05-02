@@ -1,7 +1,7 @@
 Painless MVC
 ============
 
-Version 1.0
+Version 1.01
 
 _A lightweight, minimalist PHP MVC framework designed to separate work into models, views, and controllers, yet **not require a long learning curve**. It is ideal for working with teammates who are either new to MVC or already know another platform, and is especially useful if teammates know separate brands of MVCs._
 
