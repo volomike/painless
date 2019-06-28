@@ -26,9 +26,9 @@ global $BASE_PATH;
 global $config;
 	$bDebug = FALSE;
 	// Get our Initial URL
-	$sThisURL = @ $_SERVER['REDIRECT_URL'];
+	$sThisURL = @ $_SERVER['REQUEST_URI'];
 	if (empty($sThisURL)) {
-		$sThisURL = @ $_SERVER['REQUEST_URI'];
+		$sThisURL = @ $_SERVER['REDIRECT_URL'];
 	}
 	if ($bDebug) echo "STEP 1: $sThisURL<br />\n";
 	// Remove base URL (minus http/s and hostname)
